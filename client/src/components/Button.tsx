@@ -6,7 +6,7 @@ import buttonCss from "~/css/components/button.css";
 
 interface IButtonProps {
     className?: string;
-    type?: "button" | "link";
+    type?: "button" | "submit" | "link";
     color: "primary" | "secundary"
     href?: string;
     children: React.ReactNode;

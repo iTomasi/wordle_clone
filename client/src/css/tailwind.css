@@ -21,3 +21,7 @@
 .text-base {
     font-size: 0.9rem;
 }
+
+.text-right {
+    text-align: right;
+}

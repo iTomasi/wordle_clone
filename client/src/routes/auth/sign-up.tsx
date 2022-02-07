@@ -3,6 +3,7 @@ import { LinksFunction } from "remix";
 
 // Components
 import Input from "~/components/form/Input";
+import Button from "~/components/Button";
 
 // Css
 import formCss from "~/css/pages/auth/form.css";
@@ -120,8 +121,14 @@ const AuthSignUp = () => {
         })
     }
 
+    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        console.log("pro")
+    }
+
     return (
-        <form className="iw_form" ref={formRef}>
+        <form className="iw_form" onSubmit={handleOnSubmit} ref={formRef}>
             <Input
                 className="mb-8"
                 labelTitle="Name"
@@ -168,6 +175,7 @@ const AuthSignUp = () => {
             />
 
             <Input
+                className="mb-4"
                 type="password"
                 labelTitle="Confirm Password"
                 placeholder="*****"
@@ -177,6 +185,12 @@ const AuthSignUp = () => {
                 onBlur={handleOnBlurInputs}
                 onChange={handleOnChangeInputs}
             />
+
+            <div className="text-right">
+                <Button type="submit" color="primary">
+                    Sign Up
+                </Button>
+            </div>
 
         </form>
     )
