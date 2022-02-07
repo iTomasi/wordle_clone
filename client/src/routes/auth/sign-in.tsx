@@ -1,8 +1,9 @@
 const AuthSignIn = () => {
     return (
-        <div>Sign In</div>
-    )
-
-}
+        <form>
+            form
+        </form>
+    )   
+};
 
 export default AuthSignIn;

@@ -23,14 +23,14 @@ const Button = ({ className = "", type = "button", color, href = "#", children }
 
     if (type === "link") {
         return (
-            <Link to={href} className={`iw_button iw_text-white iw_bg-${color} ${className}`}>
+            <Link to={href} className={`iw_button iw_text-white text-base iw_bg-${color} ${className}`}>
                 {children}
             </Link>
         )
     }
 
     return (
-        <button type={type} className={`iw_button iw_text-white iw_bg-${color} ${className}`}>
+        <button type={type} className={`iw_button iw_text-white text-base iw_bg-${color} ${className}`}>
             {children}
         </button>
     )
