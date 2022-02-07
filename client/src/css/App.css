@@ -38,12 +38,20 @@ body {
     background: var(--secondary)
 }
 
+.iw_bg-error {
+    background: var(--error);
+}
+
 .iw_text-primary {
     color: var(--primary);
 }
 
 .iw_text-secondary {
-    color: var(--secondary)
+    color: var(--secondary);
+}
+
+.iw_text-error {
+    color: var(--error);
 }
 
 .iw_text-white {

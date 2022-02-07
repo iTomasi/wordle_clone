@@ -7,6 +7,11 @@ interface IInputProps {
     type?: "text" | "password";
     placeholder: string;
     labelTitle: string;
+    name: string;
+    isValid?: boolean;
+    errorMessage?: string;
+    onChange?: React.ChangeEventHandler<HTMLInputElement>;
+    onBlur?: React.FocusEventHandler<HTMLInputElement>;
 }
 
 export const links: LinksFunction = () => {
@@ -15,12 +20,25 @@ export const links: LinksFunction = () => {
     ]
 }
 
-const Input = ({ className = "", type = "text", placeholder, labelTitle }: IInputProps) => {
+const Input = ({ className = "", type = "text", placeholder, labelTitle, name, isValid = true, errorMessage = "", onChange, onBlur }: IInputProps) => {
     return (
         <div className={`iw_input ${className}`}>
             <label className="text-base">{labelTitle}</label>
 
-            <input className="iw_text-white text-base" type={type} placeholder={placeholder}/>
+            <input
+                className={`iw_text-white text-base ${!isValid ? "mb-2 iw_error" : ""}`}
+                type={type}
+                placeholder={placeholder}
+                name={name}
+                onChange={onChange}
+                onBlur={onBlur}
+            />
+
+            {
+                (!isValid && errorMessage) && (
+                    <p className="text-base iw_text-error">{errorMessage}</p>
+                )
+            }
         </div>
     )
 };
