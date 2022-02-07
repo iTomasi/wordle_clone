@@ -3,7 +3,7 @@
     margin-bottom: 0.25rem;
 }
 
-.iw_input input {
+.iw_input .iw_theInput {
     width: 100%;
     background: #111111;
     border-radius: 0.75rem;
@@ -12,6 +12,34 @@
     outline: none;
 }
 
-.iw_input input.iw_error {
+.iw_input .iw_theInputLabel {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: #111111;
+    border-radius: 0.75rem;
+    cursor: text;
+}
+
+.iw_input .iw_theInputPassword {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding-left: 1rem;
+}
+
+.iw_input .iw_theInput.iw_error,
+.iw_input .iw_theInputLabel.iw_error {
     box-shadow: 0px 0px 0px 2px var(--error);
+}
+
+.iw_inputIconContainer {
+    padding: 0.70rem 1rem;
+    cursor: pointer;
+}
+
+.iw_inputIcon {
+    width: 1.5rem;
+    height: 1.5rem;
 }
