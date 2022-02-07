@@ -1,0 +1,8 @@
+.iw_input label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.iw_input input {
+    width: 100%;
+}
