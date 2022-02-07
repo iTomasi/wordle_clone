@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { LinksFunction } from "remix";
 
 // Components
@@ -14,6 +14,8 @@ export const links: LinksFunction = () => {
 }
 
 const AuthSignUp = () => {
+    const formRef = useRef<any>()
+
     const [inputsValidations, setInputsValidations] = useState<any>({
         name: {
             isValid: true,
@@ -51,6 +53,26 @@ const AuthSignUp = () => {
 
         if (!targetName || !inputsValidations[targetName] || !inputsValidations[targetName].blurMode) return
 
+        else if (targetName === "confirm_password") {
+            const $form = formRef.current;
+
+            if (!$form) return
+
+            const formData = new FormData($form);
+
+            setInputsValidations((prev: any) => {
+                return {
+                    ...prev,
+                    confirm_password: {
+                        ...prev.confirm_password,
+                        blurMode: false,
+                        isValid: formData.get("password")?.toString() === e.target.value
+                    }
+                }
+            })
+            return
+        }
+
         setInputsValidations((prev: any) => {
             return {
                 ...prev,
@@ -68,6 +90,25 @@ const AuthSignUp = () => {
 
         if (!targetName || !inputsValidations[targetName] || inputsValidations[targetName].blurMode) return
 
+        else if (targetName === "confirm_password") {
+            const $form = formRef.current;
+
+            if (!$form) return
+
+            const formData = new FormData($form)
+
+            setInputsValidations((prev: any) => {
+                return {
+                    ...prev,
+                    confirm_password: {
+                        ...prev.confirm_password,
+                        isValid: formData.get("password")?.toString() === e.target.value
+                    }
+                }
+            })
+            return
+        }
+
         setInputsValidations((prev: any) => {
             return {
                 ...prev,
@@ -80,7 +121,7 @@ const AuthSignUp = () => {
     }
 
     return (
-        <form className="iw_form">
+        <form className="iw_form" ref={formRef}>
             <Input
                 className="mb-8"
                 labelTitle="Name"
@@ -133,6 +174,8 @@ const AuthSignUp = () => {
                 name="confirm_password"
                 isValid={inputsValidations.confirm_password.isValid}
                 errorMessage={inputsValidations.confirm_password.errorMessage}
+                onBlur={handleOnBlurInputs}
+                onChange={handleOnChangeInputs}
             />
 
         </form>
