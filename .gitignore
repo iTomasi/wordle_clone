@@ -3,3 +3,7 @@ client/.cache
 client/build
 client/public/build
 client/.env
+
+server/node_modules
+server/dist
+server/.env

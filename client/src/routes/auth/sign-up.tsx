@@ -5,6 +5,12 @@ import { LinksFunction } from "remix";
 import Input from "~/components/form/Input";
 import Button from "~/components/Button";
 
+// Helpers
+import { name_RegExp, username_RegExp, email_RegExp, password_RegExp } from "~/helpers/customRegExp";
+
+// Requests
+import { AxiosSignUpEmail } from "~/requests/localApi/AxiosAuth";
+
 // Css
 import formCss from "~/css/pages/auth/form.css";
 
@@ -21,25 +27,25 @@ const AuthSignUp = () => {
         name: {
             isValid: true,
             blurMode: true,
-            regExp: new RegExp(/^[A-Za-z ]{3,}$/),
+            regExp: name_RegExp,
             errorMessage: "Your name should contains at least 3 characters (characters allowed: a-z and spaces)"
         },
         username: {
             isValid: true,
             blurMode: true,
-            regExp: new RegExp(/^[A-Za-z0-9]{3,30}$/),
+            regExp: username_RegExp,
             errorMessage: "Your username should contain between 3-30 characters (characters allowed: a-z 0-9)"
         },
         email: {
             isValid: true,
             blurMode: true,
-            regExp: new RegExp(/^[A-Za-z0-9\.\_]+\@[A-Za-z]+\.[A-Za-z]{2,4}$/),
+            regExp: email_RegExp,
             errorMessage: "Wrong email, example: wordleapp@app.com"
         },
         password: {
             isValid: true,
             blurMode: true,
-            regExp: new RegExp(/^.{5,}$/),
+            regExp: password_RegExp,
             errorMessage: "Your password should contains at least 5 characters"
         },
         confirm_password: {
@@ -121,10 +127,27 @@ const AuthSignUp = () => {
         })
     }
 
-    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        console.log("pro")
+        const formData = new FormData(e.currentTarget);
+
+        const name = formData.get("name") as string;
+        const username = formData.get("username") as string;
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+        const confirm_password = formData.get("confirm_password") as string;
+
+        const { error } = await AxiosSignUpEmail({
+            name, username, email, password, confirm_password
+        });
+
+        if (error) {
+            console.log(error);
+            return
+        }
+
+        console.log("PRO")
     }
 
     return (
