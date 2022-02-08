@@ -55,6 +55,8 @@ const AuthSignUp = () => {
         }
     })
 
+    const [fetching, setFetching] = useState<boolean>(false);
+
     const handleOnBlurInputs = (e: React.FocusEvent<HTMLInputElement>) => {
         const targetName = e.target.name;
 
@@ -138,16 +140,19 @@ const AuthSignUp = () => {
         const password = formData.get("password") as string;
         const confirm_password = formData.get("confirm_password") as string;
 
-        const { error } = await AxiosSignUpEmail({
+        setFetching(true);
+
+        const { error, data } = await AxiosSignUpEmail({
             name, username, email, password, confirm_password
         });
 
         if (error) {
             console.log(error);
+            setFetching(false);
             return
         }
 
-        console.log("PRO")
+        console.log(data)
     }
 
     return (
@@ -210,7 +215,7 @@ const AuthSignUp = () => {
             />
 
             <div className="text-right">
-                <Button type="submit" color="primary">
+                <Button type="submit" color="primary" loading={fetching}>
                     Sign Up
                 </Button>
             </div>

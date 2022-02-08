@@ -1,5 +1,6 @@
 import React from "react";
 import { LinksFunction, Link } from "remix";
+import SpinnerLoader from "./SpinnerLoader";
 
 // Css
 import buttonCss from "~/css/components/button.css";
@@ -10,6 +11,7 @@ interface IButtonProps {
     color: "primary" | "secundary"
     href?: string;
     children: React.ReactNode;
+    loading?: boolean;
 }
 
 export const links: LinksFunction = () => {
@@ -18,7 +20,7 @@ export const links: LinksFunction = () => {
     ]
 }
 
-const Button = ({ className = "", type = "button", color, href = "#", children }: IButtonProps) => {
+const Button = ({ className = "", type = "button", color, href = "#", children, loading = false }: IButtonProps) => {
     if (type !== "link" && href !== "#") throw new Error(`<Button type="${type}"/> can't use href props, only for type "link"`)
 
     if (type === "link") {
@@ -30,8 +32,12 @@ const Button = ({ className = "", type = "button", color, href = "#", children }
     }
 
     return (
-        <button type={type} className={`iw_button iw_text-white text-base iw_bg-${color} ${className}`}>
-            {children}
+        <button type={type} className={`iw_button iw_text-white text-base iw_bg-${color} ${className}`} disabled={loading}>
+            {
+                loading
+                    ? <SpinnerLoader/>
+                    : children
+            }
         </button>
     )
 };

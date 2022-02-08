@@ -31,9 +31,11 @@ export const AxiosSignUpEmail = async (payload: IAxiosSignUpEmail) => {
             }
         );
 
-        console.log(data);
+        if (data.message !== "OK") return { error: data }
 
-        return { success: "PRO" }
+        return {
+            data: data.data
+        }
     }
 
     catch(e) {
