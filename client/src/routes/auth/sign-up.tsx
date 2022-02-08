@@ -28,30 +28,35 @@ const AuthSignUp = () => {
             isValid: true,
             blurMode: true,
             regExp: name_RegExp,
-            errorMessage: "Your name should contains at least 3 characters (characters allowed: a-z and spaces)"
+            errorMessage: "Your name should contains at least 3 characters (characters allowed: a-z and spaces)",
+            defaultMessage: "Your name should contains at least 3 characters (characters allowed: a-z and spaces)"
         },
         username: {
             isValid: true,
             blurMode: true,
             regExp: username_RegExp,
-            errorMessage: "Your username should contain between 3-30 characters (characters allowed: a-z 0-9)"
+            errorMessage: "Your username should contain between 3-30 characters (characters allowed: a-z 0-9)",
+            defaultMessage: "Your username should contain between 3-30 characters (characters allowed: a-z 0-9)"
         },
         email: {
             isValid: true,
             blurMode: true,
             regExp: email_RegExp,
-            errorMessage: "Wrong email, example: wordleapp@app.com"
+            errorMessage: "Wrong email, example: wordleapp@app.com",
+            defaultMessage: "Wrong email, example: wordleapp@app.com"
         },
         password: {
             isValid: true,
             blurMode: true,
             regExp: password_RegExp,
-            errorMessage: "Your password should contains at least 5 characters"
+            errorMessage: "Your password should contains at least 5 characters",
+            defaultMessage: "Your password should contains at least 5 characters"
         },
         confirm_password: {
             isValid: true,
             blurMode: true,
-            errorMessage: "Your password not match"
+            errorMessage: "Your password not match",
+            defaultMessage: "Your password not match"
         }
     })
 
@@ -75,7 +80,8 @@ const AuthSignUp = () => {
                     confirm_password: {
                         ...prev.confirm_password,
                         blurMode: false,
-                        isValid: formData.get("password")?.toString() === e.target.value
+                        isValid: formData.get("password")?.toString() === e.target.value,
+                        errorMessage: prev.confirm_password.defaultMessage
                     }
                 }
             })
@@ -88,7 +94,8 @@ const AuthSignUp = () => {
                 [targetName]: {
                     ...prev[targetName],
                     blurMode: false,
-                    isValid: prev[targetName].regExp.test(e.target.value)
+                    isValid: prev[targetName].regExp.test(e.target.value),
+                    errorMessage: prev[targetName].defaultMessage
                 }
             }
         })
@@ -147,7 +154,17 @@ const AuthSignUp = () => {
         });
 
         if (error) {
-            console.log(error);
+            setInputsValidations((prev: any) => {
+                return {
+                    ...prev,
+                    [error.inputName]: {
+                        ...prev[error.inputName],
+                        isValid: false,
+                        errorMessage: error.message,
+                        blurMode: true
+                    }
+                }
+            })
             setFetching(false);
             return
         }
