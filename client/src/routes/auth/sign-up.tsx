@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import { LinksFunction } from "remix";
+import { LinksFunction, useNavigate } from "remix";
+import { toast } from "react-hot-toast";
 
 // Components
 import Input from "~/components/form/Input";
@@ -11,6 +12,9 @@ import { name_RegExp, username_RegExp, email_RegExp, password_RegExp } from "~/h
 // Requests
 import { AxiosSignUpEmail } from "~/requests/localApi/AxiosAuth";
 
+// Hooks
+import { useUser } from "~/hooks/useUser";
+
 // Css
 import formCss from "~/css/pages/auth/form.css";
 
@@ -21,6 +25,8 @@ export const links: LinksFunction = () => {
 }
 
 const AuthSignUp = () => {
+    const { handlers: { loggin } } = useUser();
+    const navigate = useNavigate();
     const formRef = useRef<any>()
 
     const [inputsValidations, setInputsValidations] = useState<any>({
@@ -169,7 +175,9 @@ const AuthSignUp = () => {
             return
         }
 
-        console.log(data)
+        toast.success("Account created successfully!");
+        loggin(data.user, data.token)
+        navigate("/")
     }
 
     return (

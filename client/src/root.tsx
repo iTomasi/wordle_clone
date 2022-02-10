@@ -14,6 +14,10 @@ import Header from "./components/header/Header";
 import Layout from "./components/Layout";
 import { links as linksButton } from "./components/Button"
 import { links as linksInput } from "./components/form/Input";
+import { Toaster } from "react-hot-toast";
+
+// Context State
+import UserState from "./context/user/UserState";
 
 // Css
 import variablesCss from "./css/variables.css";
@@ -44,11 +48,14 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Header/>
-        <Layout>
-          <Outlet />
-          <ScrollRestoration />
-        </Layout>
+        <UserState>
+          <Toaster/>
+          <Header/>
+          <Layout>
+            <Outlet />
+            <ScrollRestoration />
+          </Layout>
+        </UserState>
         <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>

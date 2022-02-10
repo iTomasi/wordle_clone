@@ -6,4 +6,6 @@ const Index = () => {
   )
 };
 
+Index.test = true
+
 export default Index;
