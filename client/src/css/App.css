@@ -43,6 +43,23 @@ body {
     animation-iteration-count: infinite;
 }
 
+.iw_lottie-loader {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000000;
+}
+
+.iw_lottie-loader div {
+    width: 95%;
+    max-width: 450px
+}
+
 /* Colors */
 .iw_bg-primary {
     background: var(--primary);

@@ -4,6 +4,9 @@ import userReducer from "./userReducer";
 import { IUser } from "~/types/User";
 import { userTypes } from "../types";
 
+// Components
+import LottieLoader from "~/components/LottieLoader";
+
 interface IUserStateProps {
     children: React.ReactNode
 }
@@ -27,6 +30,7 @@ const UserState = ({ children }: IUserStateProps) => {
                 loggin
             }
         }}>
+            <LottieLoader/>
             {children}
         </UserContext.Provider>
     )
