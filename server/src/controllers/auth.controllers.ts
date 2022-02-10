@@ -13,6 +13,15 @@ import Account from "../models/Account";
 // Config
 import globalsCfg from "../config/globals";
 
+export const GET_userAuthenticated: Handler = (req, res) => {
+    const clearUser = clearUserData(req.user);
+
+    return res.json({
+        message: "OK",
+        data: clearUser
+    })
+}
+
 export const POST_signUpEmail: Handler = async (req, res) => {
     const { name, username, email, password, confirm_password } = req.body;
 
@@ -77,6 +86,5 @@ export const POST_signUpEmail: Handler = async (req, res) => {
         console.log(e);
         console.log("POST_signUpEmail() Error");
         return res.json({ message: "Server Error" })
-    }
-    
+    } 
 }

@@ -2,6 +2,7 @@ import { AxiosApi } from "../AxiosBase";
 
 // Helpers
 import { name_RegExp, username_RegExp, email_RegExp, password_RegExp } from "~/helpers/customRegExp";
+import { getCookie } from "~/helpers/handleCookies";
 
 interface IAxiosSignUpEmail {
     name: string;
@@ -9,6 +10,32 @@ interface IAxiosSignUpEmail {
     email: string;
     password: string;
     confirm_password: string;
+}
+
+export const AxiosUserAuthenticated = async () => {
+    const userToken = getCookie("token");
+
+    if (!userToken) return { error: "No logged" }
+
+    try {
+        const { data } = await AxiosApi.get("/auth", {
+            headers: {
+                "Authorization": `Bearer ${userToken}`
+            }
+        })
+
+        if (data.message !== "OK") return { error: data.message }
+
+        return {
+            data: data.data
+        }
+    }
+
+    catch(e) {
+        console.log(e);
+        console.log("AxiosUserAuthenticated() Error");
+        return { error: "Server Error Connection" }
+    }
 }
 
 export const AxiosSignUpEmail = async (payload: IAxiosSignUpEmail) => {
