@@ -13,7 +13,8 @@ export const initialUserData: IUserReducer = {
 }
 
 const initialHandlers: IUserHandlers = {
-    loggin: () => {}
+    loggin: () => {},
+    logout: () => {}
 }
 
 export const initialState: IUserContext = {

@@ -8,8 +8,9 @@ import buttonCss from "~/css/components/button.css";
 interface IButtonProps {
     className?: string;
     type?: "button" | "submit" | "link";
-    color: "primary" | "secundary"
+    color: "primary" | "secundary" | "error";
     href?: string;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
     children: React.ReactNode;
     loading?: boolean;
 }
@@ -20,8 +21,9 @@ export const links: LinksFunction = () => {
     ]
 }
 
-const Button = ({ className = "", type = "button", color, href = "#", children, loading = false }: IButtonProps) => {
+const Button = ({ className = "", type = "button", color, href = "#", onClick, children, loading = false }: IButtonProps) => {
     if (type !== "link" && href !== "#") throw new Error(`<Button type="${type}"/> can't use href props, only for type "link"`)
+    else if (type !== "button" && onClick) throw new Error(`<Button type="${type}"/> can't use onClick props, only for type "button"`)
 
     if (type === "link") {
         return (
@@ -32,7 +34,7 @@ const Button = ({ className = "", type = "button", color, href = "#", children, 
     }
 
     return (
-        <button type={type} className={`iw_button iw_text-white text-base iw_bg-${color} ${className}`} disabled={loading}>
+        <button type={type} className={`iw_button iw_text-white text-base iw_bg-${color} ${className}`} onClick={onClick} disabled={loading}>
             {
                 loading
                     ? <SpinnerLoader/>

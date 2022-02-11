@@ -8,6 +8,7 @@ export interface IUser {
 
 export interface IUserHandlers {
     loggin: (payload: IUser, token: string) => void
+    logout: () => void
 }
 
 export interface IUserContext {

@@ -7,14 +7,18 @@ import Button from "../Button";
 import { useUser } from "~/hooks/useUser"
 
 const Right = () => {
-    const { status } = useUser();
+    const { status, handlers: { logout } } = useUser();
+
+    const handleOnClickLogout = () => logout()
 
     return (
         <div>
             {
                 status === 1 ? (
                     <>
-                    Logged
+                    <Button color="error" onClick={handleOnClickLogout}>
+                        Logout
+                    </Button>
                     </>
                 ) : (
                     <>

@@ -1,5 +1,6 @@
 import { IUserReducer } from "~/types/User";
 import { userTypes } from "../types";
+import { initialUserData } from "./UserContext";
 
 const userReducer = (state: IUserReducer, action: any) => {
     const { type, payload } = action;
@@ -21,6 +22,12 @@ const userReducer = (state: IUserReducer, action: any) => {
                 ...state,
                 data: payload,
                 status: 1
+            }
+        case userTypes.logout:
+            return {
+                ...state,
+                data: initialUserData.data,
+                status: 2
             }
         default:
             return state
