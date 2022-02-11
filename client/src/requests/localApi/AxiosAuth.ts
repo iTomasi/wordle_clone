@@ -12,6 +12,11 @@ interface IAxiosSignUpEmail {
     confirm_password: string;
 }
 
+interface IAxiosSignInEmail {
+    username: string;
+    password: string;
+}
+
 export const AxiosUserAuthenticated = async () => {
     const userToken = getCookie("token");
 
@@ -68,6 +73,37 @@ export const AxiosSignUpEmail = async (payload: IAxiosSignUpEmail) => {
     catch(e) {
         console.log(e);
         console.log("AxiosSignUpEmail() Error");
+        return { error: "Server Error Connection" }
+    }
+}
+
+export const AxiosSignInEmail = async (payload: IAxiosSignInEmail) => {
+    const { username, password } = payload;
+
+    if (!username) return { error: "Username is missing" }
+    else if (!password) return { error: "Password is missing" };
+
+    try {
+        const { data } = await AxiosApi.post(
+            "/auth/sign-in/email",
+            payload,
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        if (data.message !== "OK") return { error: data.message }
+
+        return {
+            data: data.data
+        }
+    }
+
+    catch(e) {
+        console.log(e);
+        console.log("AxiosSignInEmail() Error");
         return { error: "Server Error Connection" }
     }
 }

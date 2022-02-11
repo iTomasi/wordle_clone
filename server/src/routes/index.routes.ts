@@ -11,5 +11,6 @@ const router = Router();
 //* Auth routes
 router.get("/auth", passport_jwt, authCtrls.GET_userAuthenticated);
 router.post("/auth/sign-up/email", authCtrls.POST_signUpEmail);
+router.post("/auth/sign-in/email", authCtrls.POST_signInEmail);
 
 export default router;

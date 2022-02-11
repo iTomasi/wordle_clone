@@ -88,3 +88,50 @@ export const POST_signUpEmail: Handler = async (req, res) => {
         return res.json({ message: "Server Error" })
     } 
 }
+
+export const POST_signInEmail: Handler = async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || typeof username !== "string") return res.json({ message: "Username or email is missing" })
+    else if (!password || typeof password !== "string") return res.json({ message: "Password is missing" })
+
+    try {
+        const user = await Account.findOne({
+            where: {
+                [Op.or]: [
+                    { username_lower: username.toLowerCase() },
+                    { email: username.toLowerCase() }
+                ]
+            }
+        });
+
+        if (!user) return res.json({ message: "Account not found" })
+
+        const compare = await bcrypt.compare(password, user.getDataValue("password"));
+
+        if (!compare) return res.json({ message: "Password wrong" })
+
+        const clearUser = clearUserData(user.get());
+
+        const token = jwt.sign(
+            { id: clearUser.id },
+            globalsCfg.JWT_SECRET,
+            { expiresIn: 86400 }
+        );
+
+        return res.json({
+            message: "OK",
+            data: {
+                token,
+                user: clearUser
+            }
+        })
+    }
+
+    catch(e) {
+        console.log(e);
+        console.log("POST_signInEmail() Error");
+        return res.json({ message: "Server Error" })
+    }
+
+}

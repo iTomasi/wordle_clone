@@ -1,9 +1,16 @@
-import React from "react";
-import { LinksFunction } from "remix";
+import React, { useState } from "react";
+import { LinksFunction, useNavigate } from "remix";
+import { toast } from "react-hot-toast";
 
 // Components
 import Input from "~/components/form/Input";
 import Button from "~/components/Button";
+
+// Hooks
+import { useUser } from "~/hooks/useUser";
+
+// Requests
+import { AxiosSignInEmail } from "~/requests/localApi/AxiosAuth";
 
 // Css
 import formCss from "~/css/pages/auth/form.css";
@@ -15,11 +22,32 @@ export const links: LinksFunction = () => {
 }
 
 const AuthSignIn = () => {
+    const navigate = useNavigate();
+    const { handlers: { loggin } } = useUser();
 
-    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+    const [fetching, setFetching] = useState<boolean>(false);
 
-        console.log("Pro")
+    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        const username = formData.get("username") as string;
+        const password = formData.get("password") as string;
+
+        setFetching(true);
+
+        const { error, data } = await AxiosSignInEmail({ username, password });
+
+        if (error) {
+            toast.error(error);
+            setFetching(false)
+            return
+        }
+
+        loggin(data.user, data.token);
+        toast.success("Logged successfully");
+        navigate("/");
     }
 
     return (
@@ -40,7 +68,7 @@ const AuthSignIn = () => {
             />
 
             <div className="text-right">
-                <Button type="submit" color="primary">
+                <Button type="submit" color="primary" loading={fetching}>
                     Sign In
                 </Button>
             </div>
