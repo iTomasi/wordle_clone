@@ -17,6 +17,7 @@ import Layout from "./components/Layout";
 import MainLayout from "./components/MainLayout";
 import { links as linksButton } from "./components/Button"
 import { links as linksInput } from "./components/form/Input";
+import { links as linksUserPicture } from "./components/user/UserPicture";
 import { Toaster } from "react-hot-toast";
 
 // Context State
@@ -38,6 +39,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: appCss },
     ...linksButton(),
     ...linksInput(),
+    ...linksUserPicture()
   ]
 }
 

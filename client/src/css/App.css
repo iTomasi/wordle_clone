@@ -29,6 +29,11 @@ body {
     background: #222222;
 }
 
+.iw_header .iw_right {
+    display: flex;
+    align-items: center;
+}
+
 .iw_spinner-loader {
     width: 1.25rem;
     height: 1.25rem;
