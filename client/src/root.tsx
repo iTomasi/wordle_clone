@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   LiveReload,
   Meta,
@@ -12,6 +14,7 @@ import {
 // Components
 import Header from "./components/header/Header";
 import Layout from "./components/Layout";
+import MainLayout from "./components/MainLayout";
 import { links as linksButton } from "./components/Button"
 import { links as linksInput } from "./components/form/Input";
 import { Toaster } from "react-hot-toast";
@@ -38,7 +41,7 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export default function App() {
+const App = () => {
   return (
     <html lang="en">
       <head>
@@ -49,12 +52,14 @@ export default function App() {
       </head>
       <body>
         <UserState>
-          <Toaster/>
-          <Header/>
-          <Layout>
-            <Outlet />
-            <ScrollRestoration />
-          </Layout>
+          <MainLayout>
+            <Toaster/>
+            <Header/>
+            <Layout>
+              <Outlet />
+              <ScrollRestoration />
+            </Layout>
+          </MainLayout>
         </UserState>
         <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
@@ -62,3 +67,5 @@ export default function App() {
     </html>
   );
 }
+
+export default App;
