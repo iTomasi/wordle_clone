@@ -29,6 +29,11 @@
     padding-left: 1rem;
 }
 
+.iw_input .iw_theInput.iw_theInputTextArea {
+    min-height: 7rem;
+    resize: vertical
+}
+
 .iw_input .iw_theInput.iw_error,
 .iw_input .iw_theInputLabel.iw_error {
     box-shadow: 0px 0px 0px 2px var(--error);

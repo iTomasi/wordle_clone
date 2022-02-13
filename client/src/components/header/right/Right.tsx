@@ -20,6 +20,7 @@ const Right = () => {
                     <>
                     <div className="iw_userPictureContainer relative mr-4" onClick={() => setShowNavBar((prev) => !prev)}>
                         <UserPicture
+                            className="cursor-pointer"
                             username={user.username}
                             profile_picture={user.profile_picture}
                         />

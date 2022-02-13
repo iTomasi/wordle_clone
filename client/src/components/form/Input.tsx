@@ -7,14 +7,14 @@ import { HiEye, HiEyeOff } from "react-icons/hi";
 
 interface IInputProps {
     className?: string;
-    type?: "text" | "password";
+    type?: "text" | "password" | "textarea";
     placeholder: string;
     labelTitle: string;
     name: string;
     isValid?: boolean;
     errorMessage?: string;
-    onChange?: React.ChangeEventHandler<HTMLInputElement>;
-    onBlur?: React.FocusEventHandler<HTMLInputElement>;
+    onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 }
 
 export const links: LinksFunction = () => {
@@ -51,6 +51,14 @@ const Input = ({ className = "", type = "text", placeholder, labelTitle, name, i
                             }
                         </div>
                     </label>
+                ) : type === "textarea" ? (
+                    <textarea
+                        className={`iw_theInput iw_theInputTextArea iw_text-white text-base ${!isValid ? "mb-2 iw_error" : ""}`}
+                        name={name}
+                        placeholder={placeholder}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                    ></textarea>
                 ) : (
                     <input
                         className={`iw_theInput iw_text-white text-base ${!isValid ? "mb-2 iw_error" : ""}`}

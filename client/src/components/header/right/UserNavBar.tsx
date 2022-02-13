@@ -23,10 +23,13 @@ export const UserNavBar = ({ show, setShow }: IUserNavProps) => {
 
     useEffect(() => {
         const handleOnClick = (e: any) => {
+            if (!show) return
+
             let theTarget = e.target;
             let targetedElement: boolean = false;
 
             while(true) {
+                console.log(theTarget)
                 if (!theTarget) break
 
                 try {
@@ -46,7 +49,7 @@ export const UserNavBar = ({ show, setShow }: IUserNavProps) => {
                 }
             }
 
-            if (!targetedElement && show) {
+            if (!targetedElement) {
                 setShow(false)
             }
         }

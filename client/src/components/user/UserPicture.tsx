@@ -5,6 +5,7 @@ import { LinksFunction } from "remix";
 import userPictureCss from "~/css/components/user/userPicture.css";
 
 interface IUserPictureProps {
+    className?: string;
     profile_picture: string;
     username: string;
     margin?: string;
@@ -17,9 +18,9 @@ export const links: LinksFunction = () => {
     ]
 }
 
-export const UserPicture = ({ profile_picture, username, margin = "0", size = "normal" }: IUserPictureProps) => {
+export const UserPicture = ({ className = "", profile_picture, username, margin = "0", size = "normal" }: IUserPictureProps) => {
     return (
-        <div className={`iw_userPicture iw_${size}`} style={{ margin }}>
+        <div className={`iw_userPicture iw_${size} ${className}`} style={{ margin }}>
             {
                 !profile_picture
                     ? username[0].toUpperCase()
