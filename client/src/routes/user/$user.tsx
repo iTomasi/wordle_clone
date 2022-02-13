@@ -1,8 +1,20 @@
 import React from "react";
-import { LoaderFunction, useLoaderData } from "remix";
+import { LoaderFunction, useLoaderData, LinksFunction } from "remix";
+
+// Components
+import { UserPicture } from "~/components/user/UserPicture";
 
 // Requests
 import { AxiosGetUser } from "~/requests/localApi/AxiosUser";
+
+// Css
+import userCss from "~/css/pages/user/user.css";
+
+export const links: LinksFunction = () => {
+    return [
+        { rel: "stylesheet", href: userCss }
+    ]
+}
 
 export const loader: LoaderFunction = async ({ params }) => {
     const { user } = params;
@@ -27,8 +39,16 @@ const UserPublicProfile = () => {
     console.log(data)
 
     return (
-        <div>
-            {data.username} profile
+        <div className="iw_publicProfile">
+            <div className="iw_picture">
+                <UserPicture
+                    username={data.username}
+                    profile_picture={data.profile_picture}
+                    size="xl"
+                />
+            </div>
+
+            <h1>{data.username}</h1>
         </div>
     )
 

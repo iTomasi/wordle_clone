@@ -19,7 +19,7 @@ const Right = () => {
                 status === 1 ? (
                     <>
                     <Link className="mr-4" to={`/user/${user.username.toLowerCase()}`}>
-                        <UserPicture />
+                        <UserPicture username={user.username} profile_picture={user.profile_picture}/>
                     </Link>
                     
                     <Button color="error" onClick={handleOnClickLogout}>

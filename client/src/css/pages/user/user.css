@@ -1,0 +1,10 @@
+.iw_publicProfile h1 {
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.iw_publicProfile .iw_picture {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}

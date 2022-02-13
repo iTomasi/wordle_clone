@@ -15,7 +15,9 @@
 }
 
 .iw_userPicture.iw_xl {
-    width: 5rem;
-    height: 5rem;
+    min-width: 4.2rem;
+    min-height: 4.2rem;
+    max-width: 4.2rem;
+    max-height: 4.2rem;
     font-size: 1.5rem;
 }

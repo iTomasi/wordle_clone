@@ -4,11 +4,11 @@ import { LinksFunction } from "remix";
 // Css
 import userPictureCss from "~/css/components/user/userPicture.css";
 
-// Hooks
-import { useUser } from "~/hooks/useUser";
-
 interface IUserPictureProps {
+    profile_picture: string;
+    username: string;
     margin?: string;
+    size?: "normal" | "xl"
 }
 
 export const links: LinksFunction = () => {
@@ -17,16 +17,14 @@ export const links: LinksFunction = () => {
     ]
 }
 
-export const UserPicture = ({ margin = "0" }: IUserPictureProps) => {
-    const { user } = useUser();
-
+export const UserPicture = ({ profile_picture, username, margin = "0", size = "normal" }: IUserPictureProps) => {
     return (
-        <div className="iw_userPicture" style={{ margin }}>
+        <div className={`iw_userPicture iw_${size}`} style={{ margin }}>
             {
-                !user.profile_picture
-                    ? user.username[0].toUpperCase()
+                !profile_picture
+                    ? username[0].toUpperCase()
                     : (
-                        <img src={user.profile_picture} alt={`profile picture from ${user.username} wordle clone`}/>
+                        <img src={profile_picture} alt={`profile picture from ${username} wordle clone`}/>
                     )
             }
         </div>
