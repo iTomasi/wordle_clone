@@ -1,30 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "remix";
 
 // Components
-import Button from "../Button";
-import { UserPicture } from "../user/UserPicture";
+import Button from "../../Button";
+import { UserPicture } from "../../user/UserPicture";
+import { UserNavBar } from "./UserNavBar";
 
 // Hooks
 import { useUser } from "~/hooks/useUser"
 
 const Right = () => {
-    const { user, status, handlers: { logout } } = useUser();
-
-    const handleOnClickLogout = () => logout()
+    const { user, status } = useUser();
+    const [showNavBar, setShowNavBar] = useState<boolean>(false);
 
     return (
         <div className="iw_right">
             {
                 status === 1 ? (
                     <>
-                    <Link className="mr-4" to={`/user/${user.username.toLowerCase()}`}>
-                        <UserPicture username={user.username} profile_picture={user.profile_picture}/>
-                    </Link>
-                    
-                    <Button color="error" onClick={handleOnClickLogout}>
-                        Logout
-                    </Button>
+                    <div className="iw_userPictureContainer relative mr-4" onClick={() => setShowNavBar((prev) => !prev)}>
+                        <UserPicture
+                            username={user.username}
+                            profile_picture={user.profile_picture}
+                        />
+
+                        <UserNavBar
+                            show={showNavBar}
+                            setShow={setShowNavBar}
+                        />
+                    </div>
                     </>
                 ) : (
                     <>

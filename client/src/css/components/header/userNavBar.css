@@ -1,0 +1,45 @@
+.iw_userNavBar {
+    position: absolute;
+    background: #444444;
+    top: 120%;
+    right: 0;
+    width: 200px;
+    border-radius: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition-property: opacity, visibility;
+    transition-duration: 0.3s;
+}
+
+.iw_userNavBar.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.iw_userNavBar .iw_nav {
+    display: block;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 1rem;
+    padding: 0.75rem;
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.iw_userNavBar .iw_nav:first-child {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.iw_userNavBar .iw_nav:last-child {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.iw_userNavBar .iw_nav:hover {
+    background: #555555;
+}

@@ -1,7 +1,7 @@
 import React from "react";
 
 // Components
-import Right from "./Right";
+import Right from "./right/Right";
 
 const Header = () => {
     return (
