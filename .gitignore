@@ -3,7 +3,7 @@ client/.cache
 client/build
 client/public/build
 client/.env
-client/api/_build
+client/api/build
 
 server/node_modules
 server/dist
