@@ -14,6 +14,7 @@ interface IInputProps {
     isValid?: boolean;
     errorMessage?: string;
     value?: string;
+    inputMode?: "text" | "numeric";
     onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
     onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 }
@@ -24,7 +25,9 @@ export const links: LinksFunction = () => {
     ]
 }
 
-const Input = ({ className = "", type = "text", placeholder, labelTitle, name, isValid = true, errorMessage = "", value, onChange, onBlur }: IInputProps) => {
+const Input = ({ className = "", type = "text", placeholder, labelTitle, name, isValid = true, errorMessage = "", value, inputMode = "text", onChange, onBlur }: IInputProps) => {
+    if (inputMode !== "text" && type === "textarea") throw new Error(`<Input type="${type}"/> can't use inputMode props only available for input type="text" and type="password"`)
+
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     return (
@@ -41,6 +44,7 @@ const Input = ({ className = "", type = "text", placeholder, labelTitle, name, i
                             placeholder={placeholder}
                             name={name}
                             value={value}
+                            inputMode={inputMode}
                             onChange={onChange}
                             onBlur={onBlur}
                         />
@@ -69,6 +73,7 @@ const Input = ({ className = "", type = "text", placeholder, labelTitle, name, i
                         placeholder={placeholder}
                         name={name}
                         value={value}
+                        inputMode={inputMode}
                         onChange={onChange}
                         onBlur={onBlur}
                     />

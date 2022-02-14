@@ -29,6 +29,10 @@ body {
     background: #222222;
 }
 
+.iw_header .iw_left a {
+    text-decoration: none;
+}
+
 .iw_header .iw_right {
     display: flex;
     align-items: center;

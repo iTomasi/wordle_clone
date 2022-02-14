@@ -174,6 +174,7 @@ const CreateGame = () => {
                     value={inputsFields.trys.value}
                     errorMessage={inputsFields.trys.errorMessage}
                     isValid={inputsFields.trys.isValid}
+                    inputMode="numeric"
                     onChange={handleOnChangeInputs}
                     onBlur={handleOnBlurInputs}
                 />
