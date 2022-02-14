@@ -13,6 +13,7 @@ interface IInputProps {
     name: string;
     isValid?: boolean;
     errorMessage?: string;
+    value?: string;
     onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
     onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 }
@@ -23,7 +24,7 @@ export const links: LinksFunction = () => {
     ]
 }
 
-const Input = ({ className = "", type = "text", placeholder, labelTitle, name, isValid = true, errorMessage = "", onChange, onBlur }: IInputProps) => {
+const Input = ({ className = "", type = "text", placeholder, labelTitle, name, isValid = true, errorMessage = "", value, onChange, onBlur }: IInputProps) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     return (
@@ -39,6 +40,7 @@ const Input = ({ className = "", type = "text", placeholder, labelTitle, name, i
                             type={showPassword ? "text" : "password"}
                             placeholder={placeholder}
                             name={name}
+                            value={value}
                             onChange={onChange}
                             onBlur={onBlur}
                         />
@@ -56,6 +58,7 @@ const Input = ({ className = "", type = "text", placeholder, labelTitle, name, i
                         className={`iw_theInput iw_theInputTextArea iw_text-white text-base ${!isValid ? "mb-2 iw_error" : ""}`}
                         name={name}
                         placeholder={placeholder}
+                        value={value}
                         onChange={onChange}
                         onBlur={onBlur}
                     ></textarea>
@@ -65,6 +68,7 @@ const Input = ({ className = "", type = "text", placeholder, labelTitle, name, i
                         type={type}
                         placeholder={placeholder}
                         name={name}
+                        value={value}
                         onChange={onChange}
                         onBlur={onBlur}
                     />

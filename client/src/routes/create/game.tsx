@@ -1,7 +1,16 @@
+import React, { useState } from "react";
 import { LinksFunction } from "remix";
+import { toast } from "react-hot-toast";
 
 // Components
 import Input from "~/components/form/Input";
+import Button from "~/components/Button";
+
+// Helpers
+import { word_RegExp, trys_RegExp } from "~/helpers/customRegExp";
+
+// Requests
+import { AxiosCreateGame } from "~/requests/localApi/AxiosGame";
 
 // Css
 import formCss from "~/css/pages/auth/form.css";
@@ -15,16 +24,143 @@ export const links: LinksFunction = () => {
 }
 
 const CreateGame = () => {
+    const [inputsFields, setInputsFields] = useState<any>({
+        word: {
+            regExp: word_RegExp,
+            errorMessage: "Your word should contains between 3 - 45 characters. Characters alloweds: [A-Z]",
+            isValid: true,
+            value: ""
+        },
+
+        trys: {
+            regExp: trys_RegExp,
+            errorMessage: "Trys should be >= 1 and <= 20",
+            isValid: true,
+            value: ""
+        },
+
+        description: {
+            value: ""
+        }
+    })
+
+    const handleOnBlurInputs = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const targetName = e.target.name;
+
+        if (targetName === "word") {
+            setInputsFields((prev: any) => (
+                {
+                    ...prev,
+                    word: {
+                        ...prev.word,
+                        isValid: (prev.word.value.length >= 3 && prev.word.value.length <= 45)
+                    }
+                }
+            ));
+            return
+        }
+
+        else if (targetName === "trys") {
+            setInputsFields((prev: any) => {
+                const parseValue = parseInt(prev.trys.value)
+
+                const isValid = 
+                    (!isNaN(parseValue) && parseValue >= 1 && parseValue <= 20)
+
+                return {
+                    ...prev,
+                    trys: {
+                        ...prev.trys,
+                        isValid
+                    }
+                }
+            })
+            return
+        }
+
+        console.log({targetName});
+        console.log("wtf")
+    }
+
+    const handleOnChangeInputs = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const targetName = e.target.name;
+
+        if (targetName === "description") {
+            setInputsFields((prev: any) => (
+                {
+                    ...prev,
+                    description: {
+                        ...prev.description,
+                        value: e.target.value
+                    }
+                }
+            ));
+            return
+        }
+
+        setInputsFields((prev: any) => {
+            return {
+                ...prev,
+                [targetName]: {
+                    ...prev[targetName],
+                    isValid: prev[targetName].regExp.test(e.target.value),
+                    value: prev[targetName].regExp.test(e.target.value) ? e.target.value : prev[targetName].value
+                }
+            }
+        })
+    }
+
+    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const { error, success }: any = await AxiosCreateGame({
+            word: inputsFields.word.value,
+            trys: inputsFields.trys.value,
+            description: inputsFields.description.value
+        });
+
+        console.log({error})
+        console.log({success})
+
+        if (error) {
+            if (error.type === "toast") {
+                toast.error(error.message);
+                return
+            }
+
+            setInputsFields((prev: any) => (
+                {
+                    ...prev,
+                    [error.inputName]: {
+                        ...prev[error.inputName],
+                        isValid: false
+                    }
+                }
+            ));
+
+            return
+        }
+
+        toast.success("NICe")
+
+
+    }
+
     return (
         <div className="iw_createGame">
             <h1>Create a Game</h1>
 
-            <form className="iw_form">
+            <form className="iw_form" onSubmit={handleOnSubmit}>
                 <Input
                     className="mb-8"
                     labelTitle="Word"
                     name="word"
                     placeholder="ex. Laptop"
+                    value={inputsFields.word.value}
+                    errorMessage={inputsFields.word.errorMessage}
+                    isValid={inputsFields.word.isValid}
+                    onChange={handleOnChangeInputs}
+                    onBlur={handleOnBlurInputs}
                 />
 
                 <Input
@@ -32,14 +168,31 @@ const CreateGame = () => {
                     labelTitle="Trys"
                     name="trys"
                     placeholder="ex. 5"
+                    value={inputsFields.trys.value}
+                    errorMessage={inputsFields.trys.errorMessage}
+                    isValid={inputsFields.trys.isValid}
+                    onChange={handleOnChangeInputs}
+                    onBlur={handleOnBlurInputs}
                 />
 
                 <Input
+                    className="mb-8"
                     type="textarea"
                     labelTitle="Description (optional)"
                     name="description"
                     placeholder="Some description from your word"
+                    value={inputsFields.description.value}
+                    onChange={handleOnChangeInputs}
                 />
+
+                <div className="text-right">
+                    <Button
+                        color="primary"
+                        type="submit" 
+                    >
+                        Create
+                    </Button>
+                </div>
 
             </form>
         </div>

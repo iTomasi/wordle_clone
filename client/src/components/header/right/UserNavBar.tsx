@@ -29,7 +29,6 @@ export const UserNavBar = ({ show, setShow }: IUserNavProps) => {
             let targetedElement: boolean = false;
 
             while(true) {
-                console.log(theTarget)
                 if (!theTarget) break
 
                 try {
@@ -64,8 +63,6 @@ export const UserNavBar = ({ show, setShow }: IUserNavProps) => {
         { title: "Create Game", type: "link", href: "/create/game" },
         { title: "Logout", type: "button", onClick: logout }
     ];
-
-    console.log(navigation)
 
     return (
         <div className={`iw_userNavBar ${show ? "active" : "noactive"}`}>

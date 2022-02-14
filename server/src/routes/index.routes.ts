@@ -3,6 +3,7 @@ import { Router } from "express";
 // Controllers
 import * as authCtrls from "../controllers/auth.controllers";
 import * as userCtrls from "../controllers/user.controllers";
+import * as gameCtrls from "../controllers/game.controllers";
 
 // passport
 import passport_jwt from "../passport_custom/passport_jwt";
@@ -17,5 +18,7 @@ router.post("/auth/sign-in/email", authCtrls.POST_signInEmail);
 //* User routes
 router.get("/user/:username", userCtrls.GET_user);
 
+//* Game routes
+router.post("/game/create", passport_jwt, gameCtrls.POST_createGame);
 
 export default router;
