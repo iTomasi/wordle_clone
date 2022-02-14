@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LinksFunction } from "remix";
+import { LinksFunction, useNavigate } from "remix";
 import { toast } from "react-hot-toast";
 
 // Components
@@ -24,6 +24,8 @@ export const links: LinksFunction = () => {
 }
 
 const CreateGame = () => {
+    const navigate = useNavigate();
+
     const [inputsFields, setInputsFields] = useState<any>({
         word: {
             regExp: word_RegExp,
@@ -43,6 +45,8 @@ const CreateGame = () => {
             value: ""
         }
     })
+
+    const [fetching, setFetching] = useState<boolean>(false)
 
     const handleOnBlurInputs = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const targetName = e.target.name;
@@ -113,16 +117,16 @@ const CreateGame = () => {
     const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        setFetching(true);
+
         const { error, success }: any = await AxiosCreateGame({
             word: inputsFields.word.value,
             trys: inputsFields.trys.value,
             description: inputsFields.description.value
         });
 
-        console.log({error})
-        console.log({success})
-
         if (error) {
+            setFetching(false)
             if (error.type === "toast") {
                 toast.error(error.message);
                 return
@@ -141,9 +145,8 @@ const CreateGame = () => {
             return
         }
 
-        toast.success("NICe")
-
-
+        toast.success("Wordle game created successfully!")
+        navigate("/");
     }
 
     return (
@@ -188,7 +191,8 @@ const CreateGame = () => {
                 <div className="text-right">
                     <Button
                         color="primary"
-                        type="submit" 
+                        type="submit"
+                        loading={fetching}
                     >
                         Create
                     </Button>

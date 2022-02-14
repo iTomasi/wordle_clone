@@ -20,9 +20,20 @@ const Word = postgres.define("Word", {
         allowNull: false
     },
 
+    word_lower: {
+        type: DataTypes.STRING(45),
+        allowNull: false
+    },
+
     trys: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+
+    description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: ""
     },
 
     users: {
