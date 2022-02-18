@@ -1,0 +1,36 @@
+.iw_gameCard {
+    background: #111111;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition-property: transform;
+    transition-duration: 0.3s;
+    display: block;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.iw_gameCard .iw_gameCard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.iw_gameCard .iw_gameCard-top .iw_userInfo {
+    display: flex;
+    align-items: center;
+}
+
+.iw_gameCard .iw_gameCard-top h4 {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.4)
+}
+
+.iw_gameCard .iw_textDescription {
+    font-size: 1rem;
+}
+
+.iw_gameCard:hover {
+    transform: scale(1.01);
+}

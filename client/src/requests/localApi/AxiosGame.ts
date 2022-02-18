@@ -8,6 +8,22 @@ interface IAxiosCreateGame {
     description?: string;
 }
 
+export const AxiosGetGames = async () => {
+    try {
+        const { data } = await AxiosApi.get("/games");
+
+        if (data.message !== "OK") throw data.message
+
+        return data.data
+    }
+
+    catch(e) {
+        console.log(e);
+        console.log("AxiosGetGames() Error");
+        throw e
+    }
+}
+
 export const AxiosCreateGame = async (payload: IAxiosCreateGame) => {
     const userToken = getCookie("token");
 

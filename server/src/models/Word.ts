@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import postgres from "../databases/postgres";
+import Account from "./Account";
 
 const Word = postgres.define("Word", {
     id: {
@@ -42,5 +43,7 @@ const Word = postgres.define("Word", {
         defaultValue: []
     }
 });
+
+Word.belongsTo(Account.scope("private_data"), { as: "user_data", foreignKey: { name: "user_id", allowNull: false } });
 
 export default Word;

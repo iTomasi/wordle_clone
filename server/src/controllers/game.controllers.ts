@@ -2,9 +2,30 @@ import { Handler } from "express";
 
 // Helpers
 import { word_RegExp, trys_RegExp } from "../helpers/customRegExp";
+import clearUserData from "../helpers/clearUserData";
 
 // Models
 import Word from "../models/Word";
+import Account from "../models/Account";
+
+export const GET_games: Handler = async (req, res) => {
+    try {
+        const getAllWords = await Word.findAll({
+            include: {
+                model: Account,
+                as: "user_data"
+            }
+        })
+
+        res.json({ message: "OK", data: getAllWords })
+    }
+
+    catch(e) {
+        console.log(e);
+        console.log("GET_games() Error");
+        return res.json({ message: "Server Error" })
+    }
+}
 
 export const POST_createGame: Handler = async (req, res) => {
     const { word, trys, description } = req.body;

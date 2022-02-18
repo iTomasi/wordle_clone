@@ -19,6 +19,7 @@ router.post("/auth/sign-in/email", authCtrls.POST_signInEmail);
 router.get("/user/:username", userCtrls.GET_user);
 
 //* Game routes
+router.get("/games", gameCtrls.GET_games);
 router.post("/game/create", passport_jwt, gameCtrls.POST_createGame);
 
 export default router;

@@ -18,6 +18,10 @@
     margin-bottom: 2rem;
 }
 
+.last\:mb-0:last-child {
+    margin-bottom: 0;
+}
+
 .text-base {
     font-size: 0.9rem;
 }

@@ -45,6 +45,14 @@ const Account = postgres.define("Account", {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+    scopes: {
+        private_data: {
+            attributes: {
+                exclude: ["username_lower", "name_lower", "password", "email"]
+            }
+        }
+    }
 });
 
 export default Account;
