@@ -1,0 +1,12 @@
+.iw_navBar ul {
+    list-style: none;
+    display: flex;
+}
+
+.iw_navBar ul li {
+    margin-right: 1rem;
+}
+
+.iw_navBar ul li:last-child {
+    margin-right: 0;
+}

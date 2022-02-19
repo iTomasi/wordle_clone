@@ -11,7 +11,6 @@ const dateFormat = (dateISO: string) => {
     else if (elapsedTime < 31536000) return `${Math.floor(elapsedTime / 60 / 60 / 24 / 30)}mo`
     
     return `${Math.floor(elapsedTime / 60 / 60 / 24 / 365)}y`
-
 };
 
 export default dateFormat;
