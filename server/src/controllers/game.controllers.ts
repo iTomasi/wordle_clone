@@ -79,12 +79,16 @@ export const GET_gameById: Handler = async (req, res) => {
 
 export const GET_games: Handler = async (req, res) => {
     try {
-        const getAllWords = await Word.findAll({
+        const getAllWords: any = await Word.findAll({
             include: {
                 model: Account,
                 as: "user_data"
-            }
-        })
+            },
+        });
+
+        getAllWords.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+        console.log(getAllWords)
 
         res.json({ message: "OK", data: getAllWords })
     }
