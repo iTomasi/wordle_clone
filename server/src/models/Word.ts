@@ -46,7 +46,7 @@ const Word = postgres.define("Word", {
     scopes: {
         game_by_id: {
             attributes: {
-                exclude: ["word_lower", "createdAt"]
+                exclude: ["word_lower", "updatedAt"]
             }
         }
     }

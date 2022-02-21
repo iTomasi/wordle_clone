@@ -29,9 +29,13 @@ export const AxiosGetGames = async () => {
     }
 }
 
-export const AxiosGetGameById = async (id: string) => {
+export const AxiosGetGameById = async (id: string, token: string) => {
     try {
-        const { data } = await AxiosApi.get(`/game/${id}`)
+        const { data } = await AxiosApi.get(`/game/${id}`, {
+            headers: {
+                "Authorization": token
+            }
+        })
 
         if (data.message !== "OK") return { error: data.message }
 

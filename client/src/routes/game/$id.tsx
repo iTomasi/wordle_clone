@@ -10,6 +10,9 @@ import LeaderboardScreen from "~/components/game/leaderboard/LeaderboardScreen";
 // Requests
 import { AxiosGetGameById } from "~/requests/localApi/AxiosGame";
 
+// Helpers
+import { getCookie } from "~/helpers/handleCookies";
+
 export const links: LinksFunction = () => {
     return [
         ...navBarLinks(),
@@ -17,12 +20,14 @@ export const links: LinksFunction = () => {
     ]
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
     const { id } = params;
     
     if (!id) return { error: "Game Id is missing" }
 
-    const getGame = await AxiosGetGameById(id)
+    const userToken = getCookie("token", request.headers.get("cookie") || "")
+
+    const getGame = await AxiosGetGameById(id, !userToken ? "" : userToken)
 
     return getGame
 }
@@ -34,7 +39,6 @@ const GameId = () => {
     if (error) return <h1>{error}</h1>
 
     console.log(data)
-
     return (
         <div>
             <NavBar

@@ -1,4 +1,5 @@
 import { Handler } from "express";
+import jwt from "jsonwebtoken";
 
 // Helpers
 import { word_RegExp, trys_RegExp } from "../helpers/customRegExp";
@@ -6,6 +7,9 @@ import { word_RegExp, trys_RegExp } from "../helpers/customRegExp";
 // Models
 import Word from "../models/Word";
 import Account from "../models/Account";
+
+// Config
+import globalsCfg from "../config/globals";
 
 export const GET_gameById: Handler = async (req, res) => {
     const { id } = req.params;
@@ -27,14 +31,43 @@ export const GET_gameById: Handler = async (req, res) => {
 
         if (!findUser) return res.json({ message: "User owner not found" })
 
+        const userToken = req.headers.authorization;
+        let userJwtId: number = 0;
+
+        if (userToken) {
+            try {
+                const verify: any = jwt.verify(userToken, globalsCfg.JWT_SECRET)
+
+                userJwtId = verify.id
+            }
+
+            catch(e) {}
+        }
+
         const getWord = word.get();
+        const storage: any[] = []
 
         getWord.user_data = findUser.get();
         getWord.wordLength = getWord.word.length;
+        getWord.users = getWord.users.map((user: any) => {
+            if (userJwtId && userJwtId === user.user_id) {
+                storage.push(...user.data)
+            }
+
+            if (user.data[user.data.length - 1].word !== word.getDataValue("word_lower")) return false
+
+            const find = allUsers.find((value) => value.getDataValue("id") === user.user_id);
+
+            if (!find) return false
+
+            return {
+                trys: user.data.length,
+                ...find.get()
+            }
+        }).filter(Boolean)
         delete getWord.word;
 
-        return res.json({ message: "OK", data: getWord })
-
+        return res.json({ message: "OK", data: {...getWord, storage} })
     }
 
     catch(e) {
