@@ -8,6 +8,11 @@ interface IAxiosCreateGame {
     description?: string;
 }
 
+interface IAxiosVerifyWord {
+    id: number;
+    word: string;
+}
+
 export const AxiosGetGames = async () => {
     try {
         const { data } = await AxiosApi.get("/games");
@@ -21,6 +26,22 @@ export const AxiosGetGames = async () => {
         console.log(e);
         console.log("AxiosGetGames() Error");
         throw e
+    }
+}
+
+export const AxiosGetGameById = async (id: string) => {
+    try {
+        const { data } = await AxiosApi.get(`/game/${id}`)
+
+        if (data.message !== "OK") return { error: data.message }
+
+        return { data: data.data }
+    }
+
+    catch(e) {
+        console.log(e);
+        console.log("AxiosGetGameById() Error");
+        return { error: "Server Error Connection" }
     }
 }
 
@@ -57,5 +78,39 @@ export const AxiosCreateGame = async (payload: IAxiosCreateGame) => {
         console.log(e);
         console.log("AxiosCreateGame() Error");
         return { error: { type: "toast", message: "Server Error Connection" } }
+    }
+}
+
+export const AxiosVerifyWord = async (payload: IAxiosVerifyWord) => {
+    const userToken = getCookie("token");
+
+    if (!userToken) return { error: "No logged" }
+
+    const { word, id } = payload;
+
+    if (!id) return { error: "Game id is missing" }
+    else if (!word) return { error: "Word is missing" }
+
+    try {
+        const { data } = await AxiosApi.post(
+            "/game/verify-word",
+            payload,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${userToken}`
+                }
+            }
+        );
+
+        if (data.message !== "OK") return { error: data.message }
+
+        return { data: data.data }
+    }
+
+    catch(e) {
+        console.log(e);
+        console.log("AxiosVerifyWord() Error");
+        return { error: "Server Internal Error" }
     }
 }

@@ -42,6 +42,14 @@ const Word = postgres.define("Word", {
         allowNull: true,
         defaultValue: []
     }
+}, {
+    scopes: {
+        game_by_id: {
+            attributes: {
+                exclude: ["word_lower", "createdAt"]
+            }
+        }
+    }
 });
 
 Word.belongsTo(Account.scope("private_data"), { as: "user_data", foreignKey: { name: "user_id", allowNull: false } });

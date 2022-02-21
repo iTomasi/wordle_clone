@@ -21,5 +21,7 @@ router.get("/user/:username", userCtrls.GET_user);
 //* Game routes
 router.get("/games", gameCtrls.GET_games);
 router.post("/game/create", passport_jwt, gameCtrls.POST_createGame);
+router.get("/game/:id", gameCtrls.GET_gameById)
+router.post("/game/verify-word", passport_jwt, gameCtrls.POST_verifyWord);
 
 export default router;

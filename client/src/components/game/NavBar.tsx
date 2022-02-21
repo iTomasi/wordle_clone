@@ -6,6 +6,7 @@ import Button from "../Button";
 import navBarCss from "~/css/components/game/navBar.css";
 
 interface INavBarProps {
+    className?: string;
     nav: string;
     setNav: (value: string | ((prev: string) => string)) => void;
 }
@@ -21,9 +22,9 @@ export const links: LinksFunction = () => {
     ]
 }
 
-export const NavBar = ({ nav, setNav }: INavBarProps) => {
+export const NavBar = ({ className = "", nav, setNav }: INavBarProps) => {
     return (
-        <nav className="iw_navBar">
+        <nav className={`iw_navBar ${className}`}>
             <ul>
                 {
                     navigation.map((value, index) => (

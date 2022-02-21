@@ -1,9 +1,23 @@
 import React from "react";
 
-const PlayScreen = () => {
+// Components
+import { Wordle } from "../../wordle/Wordle";
+
+interface IPlayScreenProps {
+    id: number;
+    wordLength: number;
+    trys: number;
+}
+
+const PlayScreen = ({ id, wordLength, trys }: IPlayScreenProps) => {
     return (
         <div>
-            Play Screen
+            <Wordle
+                id={id}
+                wordLength={wordLength}
+                trys={trys}
+                storage={[]}
+            />
         </div>
     )
 };

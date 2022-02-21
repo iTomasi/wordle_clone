@@ -1,29 +1,56 @@
 import React, { useState } from "react";
-import { LinksFunction } from "remix";
+import { LinksFunction, LoaderFunction, useLoaderData } from "remix";
 
 // Components
 import { NavBar, links as navBarLinks } from "~/components/game/NavBar";
+import { links as wordleLinks } from "~/components/wordle/Wordle";
 import PlayScreen from "~/components/game/play/PlayScreen";
 import LeaderboardScreen from "~/components/game/leaderboard/LeaderboardScreen";
 
+// Requests
+import { AxiosGetGameById } from "~/requests/localApi/AxiosGame";
+
 export const links: LinksFunction = () => {
     return [
-        ...navBarLinks()
+        ...navBarLinks(),
+        ...wordleLinks()
     ]
 }
 
+export const loader: LoaderFunction = async ({ params }) => {
+    const { id } = params;
+    
+    if (!id) return { error: "Game Id is missing" }
+
+    const getGame = await AxiosGetGameById(id)
+
+    return getGame
+}
+
 const GameId = () => {
+    const { error, data } = useLoaderData();
     const [nav, setNav] = useState<string>("play");
+
+    if (error) return <h1>{error}</h1>
+
+    console.log(data)
 
     return (
         <div>
             <NavBar
+                className="mb-8"
                 nav={nav}
                 setNav={setNav}
             />
             
             {
-                nav === "play" && <PlayScreen/>
+                nav === "play" && (
+                    <PlayScreen
+                        id={data.id}
+                        wordLength={data.wordLength}
+                        trys={data.trys}
+                    />
+                )
             }
             
             {

@@ -1,0 +1,41 @@
+:root {
+    --BOX_SIZE: 70px;
+}
+
+.iw_wordleTable-row {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.iw_wordleTable-row:last-child {
+    margin-bottom: 0;
+}
+
+.iw_wordleTableBox {
+    background: #111111;
+    width: var(--BOX_SIZE);
+    height: var(--BOX_SIZE);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    margin: 0 0.25rem;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+
+.iw_wordleTableBox.iw_pro {
+    background: var(--success);
+    color: #000000;
+}
+
+.iw_wordleTableBox.iw_semi-pro {
+    background: var(--warning);
+    color: #000000;
+}
+
+.iw_wordleTableBox.iw_nope {
+    background: var(--error);
+}
