@@ -17,6 +17,9 @@ interface ITableProps {
     trys: number;
     storage: IStorage[];
     onSubmit: (word: string) => void;
+    theWord: string;
+    setTheWord: (value: string | ((prev: string) => string)) => void;
+    loading: boolean;
 }
 
 const alphabet: string = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz";
@@ -27,11 +30,11 @@ export const links: LinksFunction = () => {
     ]
 }
 
-export const Table = ({ wordLength, trys, storage, onSubmit }: ITableProps) => {
-    const [theWord, setTheWord] = useState<string>("");
-
+export const Table = ({ wordLength, trys, storage, onSubmit, theWord, setTheWord, loading }: ITableProps) => {
     useEffect(() => {
         const handleOnKeyUp = (e: KeyboardEvent) => {
+            if (loading || storage.length === trys || storage[storage.length - 1].evaluation.every((value) => value === 2)) return
+
             if (e.key === "Backspace" && theWord) {
                 setTheWord((prev) => prev.substring(0, prev.length - 1))
             }
@@ -48,7 +51,7 @@ export const Table = ({ wordLength, trys, storage, onSubmit }: ITableProps) => {
         window.addEventListener("keyup", handleOnKeyUp);
 
         return () => window.removeEventListener("keyup", handleOnKeyUp)
-    }, [theWord])
+    }, [theWord, loading])
 
     return (
         <div className="iw_wordleTable">
@@ -59,6 +62,7 @@ export const Table = ({ wordLength, trys, storage, onSubmit }: ITableProps) => {
                             Array.from(Array(wordLength).keys()).map((_, index_1) => (
                                 <Box
                                     key={index_1}
+                                    evaluation={storage[index] === undefined ? -1 : storage[index].evaluation[index_1]}
                                     character={
                                         (storage[index] === undefined && index === storage.length)
                                             ? (!theWord[index_1] ? "" : theWord[index_1])

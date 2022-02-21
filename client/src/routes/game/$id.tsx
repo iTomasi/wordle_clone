@@ -13,6 +13,11 @@ import { AxiosGetGameById } from "~/requests/localApi/AxiosGame";
 // Helpers
 import { getCookie } from "~/helpers/handleCookies";
 
+interface IStorage {
+    word: string;
+    evaluation: number[];
+}
+
 export const links: LinksFunction = () => {
     return [
         ...navBarLinks(),
@@ -34,11 +39,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
 const GameId = () => {
     const { error, data } = useLoaderData();
-    const [nav, setNav] = useState<string>("play");
-
     if (error) return <h1>{error}</h1>
 
-    console.log(data)
+    const [nav, setNav] = useState<string>("play")
+    const [storage, setStorage] = useState<IStorage[]>(data.storage)
+
     return (
         <div>
             <NavBar
@@ -53,6 +58,8 @@ const GameId = () => {
                         id={data.id}
                         wordLength={data.wordLength}
                         trys={data.trys}
+                        storage={storage}
+                        setStorage={setStorage}
                     />
                 )
             }

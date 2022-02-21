@@ -1,2 +1,8 @@
 .iw_wordle {
+    transition-property: opacity;
+    transition-duration: 0.3s;
+}
+
+.iw_wordle.iw_loading {
+    opacity: 0.5;
 }

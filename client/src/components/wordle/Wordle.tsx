@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { LinksFunction } from "remix";
 
 // Components
@@ -20,6 +20,7 @@ interface IWordleProps {
     wordLength: number;
     trys: number;
     storage: IStorage[];
+    setStorage: (value: IStorage[] | ((prev: IStorage[]) => IStorage[])) => void;
 }
 
 // Evaluation = { "0": "red", "1": "yellow", "2": "green" }
@@ -32,25 +33,38 @@ export const links: LinksFunction = () => {
     ]
 }
 
-export const Wordle = ({id, wordLength, trys, storage }: IWordleProps) => {
+export const Wordle = ({id, wordLength, trys, storage, setStorage }: IWordleProps) => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [theWord, setTheWord] = useState<string>("");
+
     const handleOnSubmitTable = async (word: string) => {
+        console.log("a")
+        setLoading(true)
         const { error, data } = await AxiosVerifyWord({ id, word })
 
         if (error) {
             console.log(error);
             return
         }
+
+        else {
+            setStorage((prev) => [...prev, data])
+            setTheWord("")
+        }
         
-        console.log(data)
+        setLoading(false);
     }
 
     return (
-        <div className="iw_wordle">
+        <div className={`iw_wordle ${loading ? "iw_loading" : ""}`}>
             <Table
                 wordLength={wordLength}
                 trys={trys}
                 storage={storage}
                 onSubmit={handleOnSubmitTable}
+                theWord={theWord}
+                setTheWord={setTheWord}
+                loading={loading}
             />
         </div>
     )
