@@ -33,7 +33,7 @@ export const links: LinksFunction = () => {
 export const Table = ({ wordLength, trys, storage, onSubmit, theWord, setTheWord, loading }: ITableProps) => {
     useEffect(() => {
         const handleOnKeyUp = (e: KeyboardEvent) => {
-            if (loading || storage.length === trys || storage[storage.length - 1].evaluation.every((value) => value === 2)) return
+            if (loading || storage.length === trys || (storage[0] !== undefined && storage[storage.length - 1].evaluation.every((value) => value === 2))) return
 
             if (e.key === "Backspace" && theWord) {
                 setTheWord((prev) => prev.substring(0, prev.length - 1))

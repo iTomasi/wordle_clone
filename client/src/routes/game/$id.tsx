@@ -4,7 +4,7 @@ import { LinksFunction, LoaderFunction, useLoaderData } from "remix";
 // Components
 import { NavBar, links as navBarLinks } from "~/components/game/NavBar";
 import { links as wordleLinks } from "~/components/wordle/Wordle";
-import PlayScreen from "~/components/game/play/PlayScreen";
+import { PlayScreen, links as playScreenLinks } from "~/components/game/play/PlayScreen";
 import LeaderboardScreen from "~/components/game/leaderboard/LeaderboardScreen";
 
 // Requests
@@ -21,7 +21,8 @@ interface IStorage {
 export const links: LinksFunction = () => {
     return [
         ...navBarLinks(),
-        ...wordleLinks()
+        ...wordleLinks(),
+        ...playScreenLinks()
     ]
 }
 
@@ -60,6 +61,7 @@ const GameId = () => {
                         trys={data.trys}
                         storage={storage}
                         setStorage={setStorage}
+                        description={data.description}
                     />
                 )
             }

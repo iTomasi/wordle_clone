@@ -54,7 +54,7 @@ export const GET_gameById: Handler = async (req, res) => {
                 storage.push(...user.data)
             }
 
-            if (user.data[user.data.length - 1].word !== word.getDataValue("word_lower")) return false
+            if (user.data[0] === undefined || user.data[user.data.length - 1].word !== word.getDataValue("word_lower")) return false
 
             const find = allUsers.find((value) => value.getDataValue("id") === user.user_id);
 

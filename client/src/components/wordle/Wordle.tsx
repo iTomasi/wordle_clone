@@ -38,7 +38,6 @@ export const Wordle = ({id, wordLength, trys, storage, setStorage }: IWordleProp
     const [theWord, setTheWord] = useState<string>("");
 
     const handleOnSubmitTable = async (word: string) => {
-        console.log("a")
         setLoading(true)
         const { error, data } = await AxiosVerifyWord({ id, word })
 
