@@ -5,6 +5,7 @@ import { LinksFunction, LoaderFunction, useLoaderData } from "remix";
 import { NavBar, links as navBarLinks } from "~/components/game/NavBar";
 import { links as wordleLinks } from "~/components/wordle/Wordle";
 import { PlayScreen, links as playScreenLinks } from "~/components/game/play/PlayScreen";
+import { links as cardLinks } from "~/components/game/leaderboard/Card";
 import LeaderboardScreen from "~/components/game/leaderboard/LeaderboardScreen";
 
 // Requests
@@ -22,7 +23,8 @@ export const links: LinksFunction = () => {
     return [
         ...navBarLinks(),
         ...wordleLinks(),
-        ...playScreenLinks()
+        ...playScreenLinks(),
+        ...cardLinks()
     ]
 }
 
@@ -67,7 +69,7 @@ const GameId = () => {
             }
             
             {
-                nav === "leaderboard" && <LeaderboardScreen/>
+                nav === "leaderboard" && <LeaderboardScreen id={data.id}/>
             }
         </div>
     )

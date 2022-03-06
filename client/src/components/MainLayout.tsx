@@ -24,6 +24,11 @@ const MainLayout = ({ children }: IMainLayoutProps) => {
             return
         }
 
+        else if (routesCfg.PROTECTED.some((value) => theLocation.pathname.startsWith(value)) && status === 2) {
+            navigate("/auth/sign-in");
+            return
+        }
+
     }, [theLocation, status])
     
     return (

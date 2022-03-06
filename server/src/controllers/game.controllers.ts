@@ -88,8 +88,6 @@ export const GET_games: Handler = async (req, res) => {
 
         getAllWords.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 
-        console.log(getAllWords)
-
         res.json({ message: "OK", data: getAllWords })
     }
 
@@ -208,4 +206,65 @@ export const POST_verifyWord: Handler = async (req, res) => {
         console.log("POST_verifyWord() Error");
         return res.json({ message: "Server Internal Error" })
     }
+}
+
+export const GET_gameLeaderboardById: Handler = async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) return res.json({ message: "Id is missing" })
+
+    try {
+        const word = await Word.findOne({
+            where: {
+                id
+            }
+        });
+
+        if (!word) return res.json({ message: "Word game not found" })
+
+        const users = word.getDataValue("users");
+
+        if (users[0] === undefined) return res.json({ message: "OK", data: [] })
+
+        const allUsers = await Account.findAll();
+
+        const userDb = req.user;
+
+        const filter = users.filter((value: any) => {
+            if (value.user_id === userDb.id) return false
+
+            const some = value.data.some((value_0: any) => {
+                return value_0.evaluation.every((value_1: number) => value_1 === 2)
+            });
+
+            return some
+        });
+
+        const map = filter.map((value: any) => {
+            const findUser = allUsers.find((user) => user.getDataValue("id") === value.user_id);
+
+            if (!findUser) return false
+
+            return {
+                user_id: value.user_id,
+                username: findUser.getDataValue("username"),
+                profile_picture: findUser.getDataValue("profile_picture"),
+                trys: value.data.length,
+            }
+        });
+
+        const filter_1 = map.filter(Boolean);
+
+        filter_1.sort((a: any, b: any) => a.trys - b.trys)
+
+
+        return res.json({ message: "OK", data: filter_1 })
+    }
+
+    catch(e) {
+        console.log(e);
+        console.log("GET_gameLeaderboardById() Error");
+        return res.json({ message: "Server Internal Error" })
+    }
+
 }

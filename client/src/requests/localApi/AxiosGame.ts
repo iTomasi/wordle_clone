@@ -22,10 +22,13 @@ export const AxiosGetGames = async () => {
         return data.data
     }
 
-    catch(e) {
+    catch(e: any) {
         console.log(e);
         console.log("AxiosGetGames() Error");
-        throw e
+
+        if (e.toString().includes("Network Error")) throw new Error("can't connect with the api")
+
+        throw new Error(e.toString())
     }
 }
 
@@ -116,5 +119,29 @@ export const AxiosVerifyWord = async (payload: IAxiosVerifyWord) => {
         console.log(e);
         console.log("AxiosVerifyWord() Error");
         return { error: "Server Internal Error" }
+    }
+}
+
+export const AxiosGetLeaderboardById = async (id: string) => {
+    const userToken = getCookie("token");
+
+    if (!userToken) throw "No logged"
+
+    try {
+        const { data } = await AxiosApi.get("/game/leaderboard/" + id, {
+            headers: {
+                "Authorization": `Bearer ${userToken}`
+            }
+        });
+
+        if (data.message !== "OK") throw data.message
+
+        return data.data
+    }
+
+    catch(e: any) {
+        console.log(e);
+        console.log("AxiosGetLeaderboardById() Error");
+        throw new Error(e.toString())
     }
 }

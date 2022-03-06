@@ -18,8 +18,7 @@ const Index = () => {
   const { error, data } = useSWR("/api/games", AxiosGetGames);
 
   if (error === undefined && data === undefined) return <h4>Loading...</h4>
-
-  console.log(data)
+  else if (error !== undefined) return <h1>{error.toString()}</h1>
 
   return (
     <div>
