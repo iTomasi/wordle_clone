@@ -231,7 +231,7 @@ export const GET_gameLeaderboardById: Handler = async (req, res) => {
         const userDb = req.user;
 
         const filter = users.filter((value: any) => {
-            if (value.user_id === userDb.id) return false
+            if (value.user_id === word.getDataValue("user_id")) return false
 
             const some = value.data.some((value_0: any) => {
                 return value_0.evaluation.every((value_1: number) => value_1 === 2)
